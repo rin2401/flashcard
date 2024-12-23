@@ -101,10 +101,10 @@
                     var jsonString = txt.match(/(?<="table":).*(?=}\);)/g)[0]
                     var json = JSON.parse(jsonString)
 
+                    console.log(json)
+
                     var table = []
                     var row = []
-                    json.cols.forEach(colonne => row.push(colonne.label))
-                    table.push(row)
                     json.rows.forEach(r => {
                         var row = []
                         r.c.forEach(cel => {

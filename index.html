@@ -36,6 +36,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
             font-size: 1.5em;
             padding: 20px;
             box-sizing: border-box;
@@ -146,11 +147,16 @@
         const progressEl = document.querySelector('.progress');
 
         function updateCard() {
-            frontEl.textContent = flashcards[currentCard].front;
+            var c = flashcards[currentCard];
+            frontEl.innerHTML = c.front;
+            if (c.form) {
+                frontEl.innerHTML += `<br>(${c.form})`
+            }
+
             card.classList.remove('flipped');
             updateProgress();
             setTimeout(() => {
-                backEl.textContent = flashcards[currentCard].back;
+                backEl.textContent = c.back;
             }, 600);
         }
 

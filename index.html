@@ -86,12 +86,50 @@
     </div>
 
     <script>
-        const flashcards = [
-            { front: "What is the capital of France?", back: "Paris" },
-            { front: "What is 2 + 2?", back: "4" },
-            { front: "Who wrote Romeo and Juliet?", back: "William Shakespeare" },
-            { front: "What is the chemical symbol for gold?", back: "Au" }
-        ];
+        var flashcards = []
+        function fetchData(id, gid) {
+            var url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&tq&gid=${gid}`;
+
+            fetch(url)
+                .then(x => x.text())
+                .then(txt => {
+                    var jsonString = txt.match(/(?<="table":).*(?=}\);)/g)[0]
+                    var json = JSON.parse(jsonString)
+
+                    var table = []
+                    var row = []
+                    json.cols.forEach(colonne => row.push(colonne.label))
+                    table.push(row)
+                    json.rows.forEach(r => {
+                        var row = []
+                        r.c.forEach(cel => {
+                            try {
+                                var value = cel.f ? cel.f : cel.v
+                            }
+                            catch (e) {
+                                var value = ''
+                            }
+                            row.push(value)
+                        }
+                        )
+                        table.push(row)
+                    }
+                    )
+                    console.log(table)
+
+                    var cols = table[0]
+                    for (let i = 1; i < table.length; i++) {
+                        item = {};
+                        for (let j = 0; j < cols.length; j++) {
+                            item[cols[j]] = table[i][j]
+                        }
+                        flashcards.push(item)
+                    }
+                    console.log(flashcards)
+                    updateCard();
+                })
+        }
+
 
         let currentCard = 0;
         const card = document.querySelector('.card');
@@ -132,7 +170,7 @@
         });
 
         // Initialize
-        updateCard();
+        fetchData("12q04f4hwtVQjfVSUayDsgXLGGbqrl9urm8gp556nPQA", "104912594")
     </script>
 </body>
 </html>

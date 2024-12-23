@@ -147,9 +147,11 @@
 
         function updateCard() {
             frontEl.textContent = flashcards[currentCard].front;
-            backEl.textContent = flashcards[currentCard].back;
             card.classList.remove('flipped');
             updateProgress();
+            setTimeout(() => {
+                backEl.textContent = flashcards[currentCard].back;
+            }, 600);
         }
 
         function updateProgress() {

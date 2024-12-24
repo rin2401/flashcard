@@ -129,6 +129,8 @@
 
                     var table = []
                     var row = []
+                    json.cols.forEach(colonne => row.push(colonne.label))
+                    table.push(row)
                     json.rows.forEach(r => {
                         var row = []
                         r.c.forEach(cel => {
@@ -155,14 +157,19 @@
                         flashcards.push(item)
                     }
 
-                    flashcards = shuffle(flashcards);
+                    // flashcards = shuffle(flashcards);
                     console.log(flashcards)
                     updateCard();
                 })
         }
 
+        var currentCard = 0;
+        var hash = window.location.hash.substr(1);
+        if (hash) {
+            currentCard = parseInt(hash) - 1;
+        }
+        console.log("currentCard:", currentCard + 1)
 
-        let currentCard = 0;
         const card = document.querySelector('.card');
         const frontEl = document.querySelector('.front');
         const backEl = document.querySelector('.back');
@@ -190,6 +197,8 @@
         }
 
         function updateProgress() {
+            console.log("currentCard:", currentCard + 1)
+            history.pushState({}, null, "#" + (currentCard + 1));
             progressEl.textContent = `Card ${currentCard + 1} of ${flashcards.length}`;
         }
 

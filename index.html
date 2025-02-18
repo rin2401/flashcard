@@ -180,7 +180,7 @@
 
         function updateCard() {
             var c = flashcards[currentCard];
-            frontEl.innerHTML = c.front;
+            frontEl.innerHTML = c.front.replaceAll('\n', '<br>');
 
             if (c.phonetics) {
                 frontEl.innerHTML += `<br>${c.phonetics}`
